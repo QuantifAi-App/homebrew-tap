@@ -25,7 +25,11 @@ class QuantifaiSync < Formula
   end
 
   def install
-    bin.install "quantifai-sync"
+    # Binary is named with platform suffix in the tarball
+    Dir.glob("quantifai-sync-*").each do |f|
+      next if f.end_with?(".sha256")
+      bin.install f => "quantifai-sync"
+    end
   end
 
   service do
